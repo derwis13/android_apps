@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RestApplication</string>
+    <string name="input_text">input text</string>
+    <string name="output_text">output text</string>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fragment_sensor_menu">
+    <fragment
+        android:id="@+id/fragment_sensor_menu"
+        android:name="com.example.iot_sensehat.SensorMenuFragment"
+        android:label="SensorMenuFragment"
+        tools:layout="@layout/fragment_sensor_menu" >
+        <action
+            android:id="@+id/action_fragment_sensor_menu_to_fragment_sensor_graph"
+            app:destination="@id/fragment_sensor_graph" />
+        <action
+            android:id="@+id/action_fragment_sensor_menu_to_fragment_output_menager"
+            app:destination="@id/fragment_output_menager" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_sensor_graph"
+        android:name="com.example.iot_sensehat.SensorGraphFragment"
+        android:label="SensorGraphFragment"
+        tools:layout="@layout/fragment_sensor_graph">
+
+        <argument
+            android:name="sensorType"
+            app:argType="string">
+        </argument>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_output_menager"
+        android:name="com.example.iot_sensehat.OutputMenagerFragment"
+        android:label="OutputMenagerFragment"
+        tools:layout="@layout/fragment_output_menager">
+
+    </fragment>
+
+</navigation>

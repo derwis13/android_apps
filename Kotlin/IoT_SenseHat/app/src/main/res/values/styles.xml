@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="sensorNameViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80px</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">35px</item>
+    </style>
+
+    <style name="sensorDescrViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80px</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">30px</item>
+    </style>
+
+    <style name="layoutNameStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150px</item>
+        <item name="android:textSize">80px</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="unitSensorStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">50px</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="led">
+        <item name="android:layout_width">120px</item>
+        <item name="android:layout_height">120px</item>
+        <item name="android:background">@color/black</item>
+    </style>
+    
+</resources>

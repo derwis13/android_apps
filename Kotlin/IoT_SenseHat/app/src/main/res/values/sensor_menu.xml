@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="layout_name">Sensor Menu</string>
+
+    <string name="temperatureText">Temperature</string>
+    <string name="temperatureDescrText">Contains temperature measurement. Range of values -180:180 C</string>
+
+    <string name="pressureText">Pressure</string>
+    <string name="pressureDescrText">Contains pressure measurement. Range of values 0:1500 mbar</string>
+
+    <string name="humidityText">Humidity</string>
+    <string name="humidityDescrText">Contains humidity measurement. Range of values 0:100 %</string>
+
+    <string name="outputMenagerText">Output Menager</string>
+    <string name="outputMenagerDescrText">Allows you to set user states</string>
+</resources>
