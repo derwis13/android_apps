@@ -3,7 +3,6 @@ package com.example.iot_sensehat
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +11,13 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.iot_sensehat.databinding.FragmentOutputMenagerBinding
-import org.json.JSONException
-import org.json.JSONObject
 import yuku.ambilwarna.AmbilWarnaDialog
-import java.io.OutputStreamWriter
-import java.io.UnsupportedEncodingException
-import java.net.*
 import com.android.volley.Request
 
 
@@ -29,6 +25,11 @@ class OutputMenagerFragment: Fragment() {
     private lateinit var binding:FragmentOutputMenagerBinding
     private var colorPicker:AmbilWarnaDialog?=null
     private var defaultColor: Int =Color.BLUE
+    private lateinit var serverAdress:String
+
+    val params: MutableMap<String, String> = HashMap()
+
+    val args: SensorMenuFragmentArgs by navArgs()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -37,6 +38,9 @@ class OutputMenagerFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding= FragmentOutputMenagerBinding.inflate(layoutInflater,container,false)
+
+        serverAdress = args.url
+
         val listView= listOf<View>(
             binding.led00,binding.led01,binding.led02,binding.led03,binding.led04,binding.led05,binding.led06,binding.led07,
             binding.led10,binding.led11,binding.led12,binding.led13,binding.led14,binding.led15,binding.led16,binding.led17,
@@ -50,7 +54,6 @@ class OutputMenagerFragment: Fragment() {
         {
             i.setOnClickListener {
                 i.setBackgroundColor(defaultColor)
-                val params: MutableMap<String, String> = HashMap()
 
                 params["axis_x"]=i.tag.toString()[1].toString()
                 params["axis_y"]=i.tag.toString()[0].toString()
@@ -64,9 +67,15 @@ class OutputMenagerFragment: Fragment() {
                 sendRequestToServer(params).start()
             }
         }
+        binding.imageView.setOnClickListener{
+            Navigation.findNavController(it)
+                .navigate(
+                    OutputMenagerFragmentDirections.actionFragmentOutputMenagerToFragmentSettings()
+                )
+        }
+
         binding.button5.setOnClickListener {listView.forEach {
             it.setBackgroundColor(Color.BLACK)
-            val params: MutableMap<String, String> = HashMap()
 
             params["axis_x"]="0"
             params["axis_y"]="0"
@@ -102,7 +111,7 @@ class OutputMenagerFragment: Fragment() {
         binding.chooseColorPreview.setBackgroundColor(defaultColor)
     }
     fun sendRequestToServer(params:Map<String, String>):Thread{
-        val url="http://192.168.43.39/post.php"
+        val url="http://${serverAdress}/server/post.php"
         return Thread{
             val queue = Volley.newRequestQueue(context)
             val request: StringRequest = object : StringRequest(

@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="50px">
 
     <TextView
         android:id="@+id/layoutOverlay"
-        android:text="@string/layout_name"
+        android:text="Output Manager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -409,7 +410,7 @@
         android:id="@+id/button3"
         android:layout_width="150dp"
         android:layout_height="82dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="12dp"
         android:text="Apply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -418,8 +419,8 @@
 
     <View
         android:id="@+id/chooseColorPreview"
-        android:layout_width="123dp"
-        android:layout_height="95dp"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/chooseColorButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/chooseColorButton"
@@ -435,6 +436,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout3"
         app:layout_constraintVertical_bias="0.346" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/layoutOverlay"
+        app:layout_constraintEnd_toEndOf="@+id/layoutOverlay"
+        app:layout_constraintTop_toTopOf="@+id/layoutOverlay"
+        app:srcCompat="?attr/actionModeShareDrawable" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

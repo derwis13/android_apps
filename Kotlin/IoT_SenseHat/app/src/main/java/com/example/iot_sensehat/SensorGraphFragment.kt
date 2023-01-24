@@ -6,11 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.iot_sensehat.databinding.FragmentSensorGraphBinding
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.LegendRenderer
@@ -19,23 +19,28 @@ import com.jjoe64.graphview.series.LineGraphSeries
 import java.net.URL
 import java.util.*
 
+
 @Suppress("UNREACHABLE_CODE")
 class SensorGraphFragment:Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding:FragmentSensorGraphBinding
-    private val sensorList= arrayListOf<String>("temperature","pressure","humidity")
-    private var selectSensor:String?=null
+    private val sensorList= arrayListOf<String>("Temperature","Pressure","Humidity","Pitch","Roll","Yaw")
+    private lateinit var selectSensor:String
+    private lateinit var serverAdress:String
     private lateinit var chart:GraphView
-    //private lateinit var signal:LineGraphSeries[]
     private lateinit var signal: Array<LineGraphSeries<DataPoint>>
 
-    private var measurement=Measurement(URL("http://192.168.43.39/getMeasurement.php"))
-    private var measurementPrecision:Int=3
+    private lateinit var measurement:Measurement
     private var filterTimer: Timer? = null
     private var k:Int=0
     private var sampleMax:Int = 0
     private var sampleTime:Double=0.1
-    var series: LineGraphSeries<DataPoint>?=null
-    //var s:ArrayList<DataPoint>?=null
+
+    private var temperatureOrgValue=true
+    private var pressureOrgValue=true
+    private var humidityOrgValue=true
+    private var orientationOrgValue=true
+
+    val args: SensorMenuFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -45,6 +50,9 @@ class SensorGraphFragment:Fragment(), AdapterView.OnItemSelectedListener {
     ): View {
         binding=FragmentSensorGraphBinding.inflate(layoutInflater,container,false)
 
+
+        serverAdress = args.url
+        measurement= Measurement((URL("http://${serverAdress}/server/getMeasurement.php")))
         setDefaultItemOnSpinner(SensorGraphFragmentArgs.fromBundle(requireArguments()))
         chartInit(0.0,100.0,0.0,100.0,"Temperature [C]")
 
@@ -53,18 +61,42 @@ class SensorGraphFragment:Fragment(), AdapterView.OnItemSelectedListener {
             it.setDropDownViewResource(android.R.layout.simple_spinner_item)
             sensorSpinner.adapter=it
         }
+        binding.seekBar.apply {
+            this.max=10
+            this.min=1
+        }
 
         sensorSpinner.onItemSelectedListener=this
 
-        binding.button2.setOnClickListener {
-            chart.viewport.setMaxX(100.0)
-            updateChartConfiguration() }
-        binding.button.setOnClickListener {
-            chart.viewport.setMinX(20.0)
-            updateChartConfiguration()
+        binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            var progressChangedValue = 0.0
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                progressChangedValue = progress/10.0
+                sampleTime=progressChangedValue
+                updateChart(selectSensor)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                Toast.makeText(
+                    context, "Sample time : $sampleTime",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+        })
+
+        binding.imageView.setOnClickListener{
+            Navigation.findNavController(it)
+                .navigate(
+                    SensorGraphFragmentDirections.actionFragmentSensorGraphToFragmentSettings()
+                )
         }
 
-        sampleMax= (chart.viewport.getMaxX(false)/0.1).toInt()
+        sampleMax= (chart.viewport.getMaxX(false)/sampleTime).toInt()
 
         if(filterTimer==null)
         {
@@ -76,25 +108,78 @@ class SensorGraphFragment:Fragment(), AdapterView.OnItemSelectedListener {
                     FilterProcedure()
                 }
             }
-            filterTimer!!.scheduleAtFixedRate(filterTimerTask,0,100)
+            filterTimer!!.scheduleAtFixedRate(filterTimerTask,0,(sampleTime*1000).toLong())
         }
 
-
+        binding.pressureSwitch.setOnClickListener{
+            pressureOrgValue = !binding.pressureSwitch.isChecked
+            if(selectSensor=="Pressure")
+                updateChart(selectSensor)
+        }
+        binding.humiditySwitch.setOnClickListener{
+            humidityOrgValue = !binding.humiditySwitch.isChecked
+            if(selectSensor=="Humidity")
+            updateChart(selectSensor)
+        }
+        binding.temperatureSwitch.setOnClickListener{
+            temperatureOrgValue = !binding.temperatureSwitch.isChecked
+            if(selectSensor=="Temperature")
+                updateChart(selectSensor)
+        }
+        binding.orientationSwitch.setOnClickListener{
+            orientationOrgValue = !binding.orientationSwitch.isChecked
+            if(selectSensor=="Yaw" || selectSensor=="Pitch" || selectSensor=="Roll")
+                updateChart(selectSensor)
+        }
 
         return binding.root
     }
     private fun FilterProcedure() {
         if (k <= sampleMax) {
-            val x: Double?=when(selectSensor){
-                "temperature"->measurement.getMeasurement().first
-                "pressure"->measurement.getMeasurement().second
-                "humidity"->measurement.getMeasurement().third
+            val x: Number?=when(selectSensor){
+                "Temperature"->{
+                    if(!temperatureOrgValue && measurement.getMeasurement()[0]!=null)
+                        measurement.getMeasurement()[0]!!.toDouble()+273.15
+                    else
+                        measurement.getMeasurement()[0]
+                }
+                "Pressure"->{
+                    if(!pressureOrgValue && measurement.getMeasurement()[1]!=null)
+                        measurement.getMeasurement()[1]!!.toDouble()
+                    else
+                        measurement.getMeasurement()[1]
+                }
+                "Humidity"->{
+                    if(!humidityOrgValue && measurement.getMeasurement()[2]!=null)
+                        measurement.getMeasurement()[2]!!.toDouble()
+                    else
+                        measurement.getMeasurement()[2]
+                }
+                "Pitch"->{
+                    if(!orientationOrgValue && measurement.getMeasurement()[3]!=null)
+                        measurement.getMeasurement()[3]!!.toDouble()*180.0/Math.PI
+                    else
+                        measurement.getMeasurement()[3]
+                }
+                "Roll"->{
+                    if(!orientationOrgValue && measurement.getMeasurement()[4]!=null)
+                        measurement.getMeasurement()[4]!!.toDouble()*180.0/Math.PI
+                    else
+                        measurement.getMeasurement()[4]
+                }
+                "Yaw"->{
+                    if(!orientationOrgValue && measurement.getMeasurement()[5]!=null)
+                        measurement.getMeasurement()[5]!!.toDouble()*180.0/Math.PI
+                    else
+                        measurement.getMeasurement()[5]
+                }
                 else -> {null}
             }
             if (x!=null)
             {
-                signal[0].appendData(DataPoint(k*sampleTime,x),false,sampleMax)
+                signal[0].appendData(DataPoint(k*sampleTime,x.toDouble()),false,sampleMax)
                 chart.onDataChanged(true, true)
+                Log.d("value","${k*sampleTime}, ${sampleMax}")
                 k++
             }
 
@@ -117,28 +202,57 @@ class SensorGraphFragment:Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(p0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
-        chart.removeAllSeries()
-        selectSensor=p0.getItemAtPosition(p2).toString()
-        if (selectSensor=="humidity")
-            chartInit(0.0,100.0,0.0,100.0,"humidity [%]")
-        if (selectSensor=="pressure")
-            chartInit(0.0,100.0,260.0,1260.0,"pressure [mbar]")
-        if (selectSensor=="temperature")
-            chartInit(0.0,100.0,-30.0,105.0,"temperature [C]")
-        k=0
 
+        selectSensor=p0.getItemAtPosition(p2).toString()
+
+        updateChart(selectSensor)
+
+    }
+    fun updateChart(selectSensor:String?){
+        chart.removeAllSeries()
+        if (selectSensor=="Humidity")
+            if(humidityOrgValue)
+                chartInit(0.0,1000.0,0.0,100.0,"humidity [%]")
+            else
+                chartInit(0.0,1000.0,0.0,100.0,"humidity [0-100]")
+
+        if (selectSensor=="Pressure")
+            if(pressureOrgValue)
+                chartInit(0.0,1000.0,260.0,1260.0,"pressure [mbar]")
+            else
+                chartInit(0.0,1000.0,260.0,1260.0,"pressure [hPa]")
+        if (selectSensor=="Temperature")
+            if(temperatureOrgValue)
+                chartInit(0.0,1000.0,-30.0,105.0,"temperature [C]")
+            else
+                chartInit(0.0,1000.0,-30.0+273.15,105.0+273.15,"temperature [K]")
+        if (selectSensor=="Pitch")
+            if(orientationOrgValue)
+                chartInit(0.0,1000.0,-Math.PI,Math.PI,"pitch [rad]")
+            else
+                chartInit(0.0,1000.0,-180.0,180.0,"pitch [°]")
+        if (selectSensor=="Roll")
+            if(orientationOrgValue)
+                chartInit(0.0,1000.0,-Math.PI,Math.PI,"roll [rad]")
+            else
+                chartInit(0.0,1000.0,-180.0,180.0,"roll [°]")
+        if (selectSensor=="Yaw")
+            if(orientationOrgValue)
+                chartInit(0.0,1000.0,-Math.PI,Math.PI,"yaw [rad]")
+            else
+                chartInit(0.0,1000.0,-180.0,180.0,"yaw [°]")
+        k=0
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
     }
     private fun chartInit(minx:Double,maxx:Double,miny:Double,maxy:Double,unit:String){
         chart=binding.chart
-        signal = arrayOf<LineGraphSeries<DataPoint>>(
+        signal = arrayOf(
             LineGraphSeries(arrayOf<DataPoint>())
-            //LineGraphSeries(arrayOf<DataPoint>())
         )
+
         chart.addSeries(signal[0])
-        //chart.addSeries(signal[1])
         chart.viewport.isXAxisBoundsManual = true
         chart.viewport.setMinX(minx)
         chart.viewport.setMaxX(maxx)
@@ -146,10 +260,7 @@ class SensorGraphFragment:Fragment(), AdapterView.OnItemSelectedListener {
         chart.viewport.setMinY(miny)
         chart.viewport.setMaxY(maxy)
 
-        //signal[0].title = "Original test signal"
         signal[0].color = Color.BLUE
-        //signal[1].title = "Filtered test signal"
-        //signal[1].color = Color.GREEN
 
         chart.legendRenderer.isVisible = true
         chart.legendRenderer.align = LegendRenderer.LegendAlign.TOP

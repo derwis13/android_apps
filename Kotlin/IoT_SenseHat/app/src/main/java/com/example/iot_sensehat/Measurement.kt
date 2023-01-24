@@ -1,7 +1,5 @@
 package com.example.iot_sensehat
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -12,6 +10,12 @@ class Measurement(private var urlServer: URL) {
     private var humidity:Double?=null
     private var temperature:Double?=null
     private var pressure:Double?=null
+    private var pich:Double?=null
+    private var roll:Double?=null
+    private var yaw:Double?=null
+    private var x_axis_button:Int?=null
+    private var y_axis_button:Int?=null
+    private var middle_button_button:Int?=null
 
     fun connectToServer():Thread{
         return Thread {
@@ -25,25 +29,26 @@ class Measurement(private var urlServer: URL) {
                     inputStreamReader.close()
                     inputSystem.close()
                 } else {
-                    //binding.baseCurrency.text = "Failed Connection"
                 }
             }catch (e:Exception){
 
             }
-            //Log.d("urlConection", "${connection.responseMessage}")
-
-
-
-
         }
     }
     fun takeMeasurement(request: Request){
         pressure=request.pressure
         humidity=request.humidity
         temperature=request.temperature
+        pich=request.pitch
+        roll=request.roll
+        yaw=request.yaw
+        x_axis_button=request.x_axis
+        y_axis_button=request.y_axis
+        middle_button_button=request.middle_button
     }
-    fun getMeasurement(): Triple<Double?, Double?, Double?> {
-        return Triple<Double?,Double?,Double?>(temperature,pressure,humidity)
+    fun getMeasurement(): ArrayList<Number?> {
+        return arrayListOf(temperature,pressure,humidity,pich,roll,yaw,x_axis_button,y_axis_button,middle_button_button)
     }
+
 
 }

@@ -3,189 +3,249 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.example.iot_sensehat.SensorMenuFragment">
-
+    android:layout_height="match_parent"
+    android:padding="50px">
 
     <TextView
         android:id="@+id/layoutOverlay"
+        style="@style/layoutNameStyle"
         android:text="@string/layout_name"
-        app:layout_constraintBottom_toTopOf="@+id/temperatureCase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        style="@style/layoutNameStyle" />
-
-    <LinearLayout
-        android:id="@+id/temperatureCase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="50px"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutOverlay"
-
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:id="@+id/temperatureTextView"
-            style="@style/sensorNameViewStyle"
-            android:text="@string/temperatureText" />
-
-        <TextView
-            android:id="@+id/temperatureDescrView"
-            android:text="@string/temperatureDescrText"
-            style="@style/sensorDescrViewStyle" />
-
-        <TextView
-            android:id="@+id/temperatureMeasurement"
-            android:text="temperature: no Data!"
-            style="@style/sensorDescrViewStyle"
-            android:textColor="@color/purple_500"/>
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_measurements"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            tools:itemCount="@integer/sensorCount_Sensor_1" />-->
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_marginStart="50px"
-        android:layout_marginEnd="50px"
-        app:layout_constraintBottom_toBottomOf="@+id/temperatureCase"
-        tools:ignore="MissingConstraints" />
-
-    <LinearLayout
-        android:id="@+id/pressureCase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="50px"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperatureCase"
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:id="@+id/pressureTextView"
-            android:text="@string/pressureText"
-            style="@style/sensorNameViewStyle" />
-
-        <TextView
-            android:id="@+id/pressureDescrView"
-            android:text="@string/pressureDescrText"
-            style="@style/sensorDescrViewStyle"/>
-
-        <TextView
-            android:id="@+id/pressureMeasurement"
-            android:text="pressure: no Data!"
-            style="@style/sensorDescrViewStyle"
-            android:textColor="@color/purple_500"/>
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_measurements2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            tools:itemCount="@integer/sensorCount_Sensor_1" />-->
-    </LinearLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_marginStart="50px"
-        android:layout_marginEnd="50px"
-        app:layout_constraintBottom_toBottomOf="@+id/pressureCase"
-        tools:ignore="MissingConstraints" />
-
-    <LinearLayout
-        android:id="@+id/humidityCase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="50px"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pressureCase"
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:id="@+id/humidityTextView"
-            android:text="@string/humidityText"
-            style="@style/sensorNameViewStyle" />
-
-        <TextView
-            android:id="@+id/humidityDescrView"
-            android:text="@string/humidityDescrText"
-            style="@style/sensorDescrViewStyle"/>
-
-        <TextView
-            android:id="@+id/humidityMeasurement"
-            android:text="humidity: no Data!"
-            style="@style/sensorDescrViewStyle"
-            android:textColor="@color/purple_500"/>
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_measurements3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            tools:itemCount="@integer/sensorCount_Sensor_1" />-->
-    </LinearLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_marginStart="50px"
-        android:layout_marginEnd="50px"
-        app:layout_constraintBottom_toBottomOf="@+id/humidityCase"
-        tools:ignore="MissingConstraints" />
-    <LinearLayout
-        android:id="@+id/outputMenagerCase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="50px"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/humidityCase"
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:id="@+id/outputMenagerTextView"
-            android:text="@string/outputMenagerText"
-            style="@style/sensorNameViewStyle" />
-
-        <TextView
-            android:id="@+id/outputMenagerDescrView"
-            android:text="@string/outputMenagerDescrText"
-            style="@style/sensorDescrViewStyle"/>
-    </LinearLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_marginStart="50px"
-        android:layout_marginEnd="50px"
-        app:layout_constraintBottom_toBottomOf="@+id/humidityCase"
         tools:ignore="MissingConstraints" />
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutOverlay" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/layoutOverlay"
+        app:layout_constraintEnd_toEndOf="@+id/layoutOverlay"
+        app:layout_constraintTop_toTopOf="@+id/layoutOverlay"
+        app:srcCompat="?attr/actionModeShareDrawable" />
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/outputMenagerCase"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="50px"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/recyclerView"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/outputMenagerTextView"-->
+<!--            style="@style/sensorNameViewStyle"-->
+<!--            android:text="@string/outputMenagerText" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/outputMenagerDescrView"-->
+<!--            style="@style/sensorDescrViewStyle"-->
+<!--            android:text="@string/outputMenagerDescrText" />-->
+<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    tools:context="com.example.iot_sensehat.SensorMenuFragment">-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/layoutOverlay"-->
+<!--        android:text="@string/layout_name"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/temperatureCase"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        style="@style/layoutNameStyle" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/temperatureCase"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="50px"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/layoutOverlay"-->
+
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/temperatureTextView"-->
+<!--            style="@style/sensorNameViewStyle"-->
+<!--            android:text="@string/temperatureText" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/temperatureDescrView"-->
+<!--            android:text="@string/temperatureDescrText"-->
+<!--            style="@style/sensorDescrViewStyle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/temperatureMeasurement"-->
+<!--            android:text="temperature: no Data!"-->
+<!--            style="@style/sensorDescrViewStyle"-->
+<!--            android:textColor="@color/purple_500"/>-->
+
+<!--&lt;!&ndash;        <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/rv_measurements"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:ignore="MissingConstraints"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:itemCount="@integer/sensorCount_Sensor_1" />&ndash;&gt;-->
+<!--    </LinearLayout>-->
+
+<!--    <View-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/black"-->
+<!--        android:layout_marginStart="50px"-->
+<!--        android:layout_marginEnd="50px"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/temperatureCase"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/pressureCase"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="50px"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/temperatureCase"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/pressureTextView"-->
+<!--            android:text="@string/pressureText"-->
+<!--            style="@style/sensorNameViewStyle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/pressureDescrView"-->
+<!--            android:text="@string/pressureDescrText"-->
+<!--            style="@style/sensorDescrViewStyle"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/pressureMeasurement"-->
+<!--            android:text="pressure: no Data!"-->
+<!--            style="@style/sensorDescrViewStyle"-->
+<!--            android:textColor="@color/purple_500"/>-->
+
+<!--&lt;!&ndash;        <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/rv_measurements2"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:ignore="MissingConstraints"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:itemCount="@integer/sensorCount_Sensor_1" />&ndash;&gt;-->
+<!--    </LinearLayout>-->
+<!--    <View-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/black"-->
+<!--        android:layout_marginStart="50px"-->
+<!--        android:layout_marginEnd="50px"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/pressureCase"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/humidityCase"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="50px"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/pressureCase"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/humidityTextView"-->
+<!--            android:text="@string/humidityText"-->
+<!--            style="@style/sensorNameViewStyle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/humidityDescrView"-->
+<!--            android:text="@string/humidityDescrText"-->
+<!--            style="@style/sensorDescrViewStyle"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/humidityMeasurement"-->
+<!--            android:text="humidity: no Data!"-->
+<!--            style="@style/sensorDescrViewStyle"-->
+<!--            android:textColor="@color/purple_500"/>-->
+
+<!--&lt;!&ndash;        <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/rv_measurements3"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:ignore="MissingConstraints"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:itemCount="@integer/sensorCount_Sensor_1" />&ndash;&gt;-->
+<!--    </LinearLayout>-->
+<!--    <View-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/black"-->
+<!--        android:layout_marginStart="50px"-->
+<!--        android:layout_marginEnd="50px"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/humidityCase"-->
+<!--        tools:ignore="MissingConstraints" />-->
+<!--    <LinearLayout-->
+<!--        android:id="@+id/outputMenagerCase"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="50px"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/humidityCase"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/outputMenagerTextView"-->
+<!--            android:text="@string/outputMenagerText"-->
+<!--            style="@style/sensorNameViewStyle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/outputMenagerDescrView"-->
+<!--            android:text="@string/outputMenagerDescrText"-->
+<!--            style="@style/sensorDescrViewStyle"/>-->
+<!--    </LinearLayout>-->
+<!--    <View-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/black"-->
+<!--        android:layout_marginStart="50px"-->
+<!--        android:layout_marginEnd="50px"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/humidityCase"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+

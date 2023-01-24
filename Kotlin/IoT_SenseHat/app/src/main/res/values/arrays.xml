@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="sensorSpinner">
-        <item>default</item>
+<!--    <string-array name="sensorSpinner">-->
+<!--        <item>default</item>-->
+<!--        <item>Temperature</item>-->
+<!--        <item>Humidity</item>-->
+<!--        <item>Pressure</item>-->
+<!--    </string-array>-->
+
+    <string-array name="sensor_name">
         <item>Temperature</item>
-        <item>Humidity</item>
         <item>Pressure</item>
+        <item>Humidity</item>
+        <item>Pitch</item>
+        <item>Roll</item>
+        <item>Yaw</item>
+        <item>Input button counter</item>
+        <item>Output Manager</item>
+    </string-array>
+
+    <string-array name="sensor_descr">
+        <item>Contains temperature measurement. Range of values -180:180 C</item>
+        <item>Contains pressure measurement. Range of values 0:1500 mbar</item>
+        <item>Contains humidity measurement. Range of values 0:100 %</item>
+        <item>Contains pitch measurement. Range of values -180:180 rad</item>
+        <item>Contains roll measurement. Range of values -180:180 rad</item>
+        <item>Contains yaw measurement. Range of values -180:180 rad</item>
+        <item>Contains counter of pressed buttons.</item>
+        <item>Allows you to set user states.</item>
+    </string-array>
+
+
+    <string-array name="sensor_measurement">
+        <item>Temperature: No data!</item>
+        <item>Pressure: No data!</item>
+        <item>Humidity: No data!</item>
+        <item>Pitch: No data!</item>
+        <item>Roll: No data!</item>
+        <item>Yaw: No data!</item>
+        <item>x: No data! \ny: No data! \nmiddle: No data!</item>
+        <item></item>
     </string-array>
 </resources>

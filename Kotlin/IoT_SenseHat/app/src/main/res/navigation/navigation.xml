@@ -11,10 +11,20 @@
         tools:layout="@layout/fragment_sensor_menu" >
         <action
             android:id="@+id/action_fragment_sensor_menu_to_fragment_sensor_graph"
-            app:destination="@id/fragment_sensor_graph" />
+            app:destination="@id/fragment_sensor_graph"/>
         <action
             android:id="@+id/action_fragment_sensor_menu_to_fragment_output_menager"
             app:destination="@id/fragment_output_menager" />
+        <action
+            android:id="@+id/action_fragment_sensor_menu_to_fragment_settings"
+            app:destination="@id/fragment_settings" />
+
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="192.168.43.39">
+        </argument>
+
     </fragment>
     <fragment
         android:id="@+id/fragment_sensor_graph"
@@ -26,6 +36,13 @@
             android:name="sensorType"
             app:argType="string">
         </argument>
+        <argument
+            android:name="url"
+            app:argType="string">
+        </argument>
+        <action
+            android:id="@+id/action_fragment_sensor_graph_to_fragment_settings"
+            app:destination="@id/fragment_settings" />
     </fragment>
 
     <fragment
@@ -34,6 +51,31 @@
         android:label="OutputMenagerFragment"
         tools:layout="@layout/fragment_output_menager">
 
+        <argument
+            android:name="url"
+            app:argType="string">
+        </argument>
+
+        <action
+            android:id="@+id/action_fragment_output_menager_to_fragment_settings"
+            app:destination="@id/fragment_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_settings"
+        android:name="com.example.iot_sensehat.SettingsFragment"
+        android:label="OutputMenagerFragment"
+        tools:layout="@layout/fragment_output_menager">
+
+
+        <action
+            android:id="@+id/action_fragment_settings_to_fragment_sensor_menu"
+            app:destination="@id/fragment_sensor_menu">
+            <argument
+                android:name="url"
+                app:argType="string">
+            </argument>
+        </action>
     </fragment>
 
 </navigation>

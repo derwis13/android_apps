@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/layoutOverlay"
         style="@style/layoutNameStyle"
-        android:text="@string/layout_name"
+        android:text="Sensor Graph"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -85,25 +85,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0:00" />
+
 
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="600px"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="24:00" />
+                />
 
         </LinearLayout>
     </LinearLayout>
@@ -206,7 +195,41 @@
                 android:text="@string/humidityUnitRightSwitch" />
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/orientationTextView"
+                style="@style/unitSensorStyle"
+                android:text="@string/orientationText" />
+
+            <Switch
+                android:id="@+id/orientationSwitch"
+                style="@style/unitSensorStyle"
+                android:layout_height="48dp"
+                android:layout_marginStart="300px"
+                android:gravity="right"
+                android:text="@string/orientationUnitLeftSwitch"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                android:id="@+id/orientationSwitchRightText"
+                style="@style/unitSensorStyle"
+                android:text="@string/orientationUnitRightSwitch" />
+        </TableRow>
+
     </TableLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/layoutOverlay"
+        app:layout_constraintEnd_toEndOf="@+id/layoutOverlay"
+        app:layout_constraintTop_toTopOf="@+id/layoutOverlay"
+        app:srcCompat="?attr/actionModeShareDrawable" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

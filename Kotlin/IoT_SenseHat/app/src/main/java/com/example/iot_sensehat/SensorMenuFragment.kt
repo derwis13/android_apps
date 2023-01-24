@@ -2,32 +2,31 @@ package com.example.iot_sensehat
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.iot_sensehat.databinding.FragmentSensorMenuBinding
-import com.google.gson.Gson
-import com.jjoe64.graphview.series.DataPoint
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
-class SensorMenuFragment: Fragment() {
+
+class SensorMenuFragment: Fragment(),RecyclerViewInterface {
 
     private lateinit var binding: FragmentSensorMenuBinding
     private var filterTimer: Timer? = null
-
-    private var samplesCounter:Int=0
-    private var sampleMax:Int?=null
-    private var measurement=Measurement(URL("http://192.168.43.39/getMeasurement.php"))
+    private lateinit var measurement:Measurement
     private var measurementPrecision:Int=3
+    private lateinit var serverAdress:String
 
+    var sensorModels=ArrayList<SensorModel>()
+
+    private lateinit var sensorAdapter:Sensor_RecyclerViewAdapter
+
+    val args: SensorMenuFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -36,11 +35,30 @@ class SensorMenuFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding=FragmentSensorMenuBinding.inflate(layoutInflater,container,false)
-        binding.temperatureCase.setOnClickListener { view:View->view.findNavController().navigate(SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentSensorGraph("temperature")) }
-        binding.humidityCase.setOnClickListener { view:View->view.findNavController().navigate(SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentSensorGraph("humidity")) }
-        binding.pressureCase.setOnClickListener { view:View->view.findNavController().navigate(SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentSensorGraph("pressure")) }
-        binding.outputMenagerCase.setOnClickListener { view:View->view.findNavController().navigate(SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentOutputMenager()) }
+
+        if (savedInstanceState==null)
+            sensorModels.clear()
+
+        binding= FragmentSensorMenuBinding.inflate(layoutInflater,container,false)
+
+        serverAdress = args.url
+
+        measurement= Measurement((URL("http://${serverAdress}/server/getMeasurement.php")))
+
+        binding.imageView.setOnClickListener{
+            findNavController(it)
+                .navigate(
+                    SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentSettings()
+                )
+        }
+
+        val recyclerView=binding.recyclerView
+        setUpSensorModels()
+
+        sensorAdapter=Sensor_RecyclerViewAdapter(context, sensorModels,this)
+        recyclerView.adapter=sensorAdapter
+        recyclerView.layoutManager=LinearLayoutManager(context)
+
 
         if(filterTimer==null)
         {
@@ -65,9 +83,57 @@ class SensorMenuFragment: Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateUI()
     {
-        binding.humidityMeasurement.setText("${measurement.getMeasurement().third?.format(measurementPrecision)} %")
-        binding.temperatureMeasurement.setText("${measurement.getMeasurement().first?.format(measurementPrecision)} C")
-        binding.pressureMeasurement.setText("${measurement.getMeasurement().second?.format(measurementPrecision)} mbar")
+        if(sensorModels.isNotEmpty()) {
+            sensorModels[0].sensorMeasurement =
+                "${measurement.getMeasurement()[0]?.format(measurementPrecision)} C"
+            sensorModels[1].sensorMeasurement =
+                "${measurement.getMeasurement()[1]?.format(measurementPrecision)} mbar"
+            sensorModels[2].sensorMeasurement =
+                "${measurement.getMeasurement()[2]?.format(measurementPrecision)} %"
+            sensorModels[3].sensorMeasurement =
+                "${measurement.getMeasurement()[3]?.format(measurementPrecision)} rad"
+            sensorModels[4].sensorMeasurement =
+                "${measurement.getMeasurement()[4]?.format(measurementPrecision)} rad"
+            sensorModels[5].sensorMeasurement =
+                "${measurement.getMeasurement()[5]?.format(measurementPrecision)} rad"
+            sensorModels[6].sensorMeasurement =
+                "x axis: ${measurement.getMeasurement()[6]}\n" +
+                        "y axis: ${measurement.getMeasurement()[7]}\n" +
+                        "middle: ${measurement.getMeasurement()[8]}"
+
+
+            activity?.runOnUiThread(Runnable {
+                // Stuff that updates the UI
+                sensorAdapter.notifyDataSetChanged()
+            })
+
+        }
+
+
     }
-    fun Double.format(digits: Int) = "%.${digits}f".format(this)
+    fun Number.format(digits: Int) = "%.${digits}f".format(this)
+
+    private fun setUpSensorModels(){
+        val sensorName=resources.getStringArray(R.array.sensor_name)
+        val sensorDescription=resources.getStringArray(R.array.sensor_descr)
+        val sensorMeasurement=resources.getStringArray(R.array.sensor_measurement)
+
+        for (i in 0..sensorName.size-1){
+            sensorModels.add(SensorModel(sensorName[i],sensorDescription[i],sensorMeasurement[i]))
+        }
+    }
+
+    override fun onItemClick(position: Int,view:View) {
+        if(position<6)
+            findNavController(view)
+                .navigate(SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentSensorGraph(
+                    sensorModels[position].sensorName,"${serverAdress}"))
+        if (position == 7) {
+            findNavController(view)
+                .navigate(SensorMenuFragmentDirections.actionFragmentSensorMenuToFragmentOutputMenager("${serverAdress}"))
+        }
+
+
+
+    }
 }

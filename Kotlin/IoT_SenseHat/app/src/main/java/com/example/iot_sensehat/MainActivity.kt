@@ -6,7 +6,6 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.iot_sensehat.databinding.ActivityMainBinding
@@ -23,15 +22,8 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        binding=DataBindingUtil.setContentView<ActivityMainBinding>(this,R.layout.activity_main)
-        //binding=ActivityMainBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
+        binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
         drawerLayout=binding.drawerLayout
-
-
-        // Create new view model provider with MainViewModel class
-        //viewModel = new ViewModelProvider(this).get(MainViewModelMock.class);
-        //val navController=this.findNavController(R.id.myNavHostFragment)
     }
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.myNavHostFragment)
